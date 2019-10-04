@@ -1,0 +1,246 @@
+
+
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+
+  <meta charset="UTF-8">
+  <title>Calculateur</title>
+  <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+  
+  
+      <style>
+      @font-face {
+    font-family: Calc;
+}
+
+header {
+  margin-top: 50px;
+      font-size:25px;
+      text-align:center;
+      font-family: 'Orbitron', sans-serif;
+      latter-spacing:2px;
+}
+em {
+      color:red;
+}
+
+
+h1 {
+      font-size:18px;
+      text-align:center;
+      font-family: 'Orbitron', sans-serif;
+      margin-top:-10px;
+}
+#calculator {
+	width: 230px;
+	height:330px;
+	margin: 100px auto;
+	padding: 20px 20px 9px;
+	background:#a4a5a4;
+	border-radius: 15px;
+	box-shadow: 7px 10px 34px 1px #131923, inset -1px -6px 12px 0.1px #131923;
+}
+
+
+
+.top .screen {
+	height: 40px;
+	width: 210px;
+	padding:0px 8px ;
+	overflow :hidden;
+	 background: #c3c2ab;
+	border-radius: 3px;
+	box-shadow: inset 0px 4px rgba(0, 0, 0, 0.2);
+	
+	font-family: Calc;
+	font-size: 20px;
+	line-height: 40px;
+	color: black;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+	text-align: right;
+	letter-spacing: 1px;
+}
+
+
+ span {
+	float: left;
+	position: relative;
+	top: 0;
+	box-shadow: 0px 3px 0px 0px #222121, inset -1px -3px 10px 1px #515151;
+	cursor: pointer;
+	font-family: 'Orbitron', sans-serif;
+
+	width: 50px;
+	height: 40px;
+	
+	background-color: #3a3a3a;
+	border-radius: 6px;
+	
+	
+	margin: 0 5.5px 10px 2px;
+	
+	color: #ffffff;
+	line-height: 36px;
+	text-align: center;
+	font-weight:bold;
+}
+
+span:active {
+  transform: translate(0px, 3px);
+  box-shadow: none;
+}
+.clear {
+      box-shadow: 0px 3px 0px 0px #671c2a;
+	
+	background: #a72d45;
+	
+	
+}
+
+.a {
+      height:90px;
+      
+}
+.b {
+      margin:-50px 0 0 0;
+      width:90px;
+}
+.c {
+   margin:-50px 0px 0px 110px;
+}
+.keys {
+      margin-top:15px;
+}
+.operator,.eval {
+      background:#062351;
+      box-shadow: 0px 3px 0px 0px #041530;
+}
+
+    </style>
+</head>
+
+<body translate="no" >
+
+  <header>Designer & Developer by<em> Moussa</em></header>
+
+     
+<div id="calculator">
+      <h1>Calculatrice</h1>
+	<div class="top">
+            
+		<div class="screen"></div>
+            
+	</div>
+	
+	<div class="keys">
+		<span class="clear">AC</span>
+            <span class="clear">C</span>
+		<span class=" operator">&divide</span>
+		<span class=" operator">x</span>
+		<span>9</span>
+		
+		<span>8</span>
+		<span>7</span>
+            <span class="operator">-</span>
+		<span>6</span>
+		
+		<span>5</span>
+		<span>4</span>
+            <span class="operator">+</span>
+		<span>3</span>
+		
+		<span>2</span>
+		<span>1</span>
+            <span class="eval a">=</span>
+           
+            
+		 <span class="b">0</span>	
+         <span class="c">.</span>   
+            
+	</div>
+      
+</div>
+
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+
+  
+
+    <script >
+      
+var keys = document.querySelectorAll('#calculator span');
+var operater = ["+", "-", "÷", "x", "="];
+
+var decimalAdded = false;
+var isLastCharEqual = false;
+for (var i = 0; i < keys.length; i++) {
+      keys[i].onclick = function(e) {
+
+            var input = document.querySelector('.screen');
+            var inputVal = input.innerHTML;
+            var btnVal = this.innerHTML;
+            if (isLastCharEqual == true) {
+                  if (inputVal.length === 1 && operater.indexOf(btnVal) !== -1 && btnVal !== "-") {
+
+                        input.innerHTML = "";
+
+                  } else {
+                        input.innerHTML += btnVal;
+                  }
+                  input.innerHTML = "";
+                  isLastCharEqual = false;
+            }
+            if (btnVal == "AC") {
+                  input.innerHTML = "";
+                  decimalAdded = false;
+
+            } else if (btnVal == "C") {
+                  if (inputVal[inputVal.length - 1] == ".") {
+                        decimalAdded = false;
+                  }
+                  input.innerHTML = inputVal.substr(0, inputVal.length - 1);
+
+            } else if (btnVal == "=") {
+                  inputVal = inputVal.replace(/x/g, '*').replace(/÷/g, '/');
+                  input.innerHTML = eval(inputVal).toFixed(2);
+                  decimalAdded = false;
+                  isLastCharEqual = true;
+
+            } else if (inputVal[inputVal.length - 1] === "." && operater.indexOf(btnVal) !== -1) {
+                  input.innerHTML = inputVal;
+            } else if (inputVal.length === 1 && inputVal[inputVal.length - 1] === "-" && operater.indexOf(btnVal) !== -1) {
+                  input.innerHTML = inputVal;
+            } else if (operater.indexOf(btnVal) !== -1 && input.innerHTML == "" && btnVal !== "-") {
+                  input.innerHTML = inputVal;
+                  isLastCharEqual = true;
+            } else if (inputVal !== "" && operater.indexOf(inputVal[inputVal.length - 1]) !== -1 && operater.indexOf(btnVal) !== -1) {
+
+                  input.innerHTML = inputVal.substr(0, inputVal.length - 1);
+                  input.innerHTML += btnVal;
+
+            } else {
+                  if (btnVal == ".") {
+                        if (decimalAdded == false) {
+                              decimalAdded = true;
+                        } else {
+                              return;
+                        }
+                  }
+                  if (operater.indexOf(btnVal) !== -1) {
+                        decimalAdded = false;
+                  }
+                  input.innerHTML += btnVal;
+            }
+
+      }
+}
+      //# sourceURL=pen.js
+    </script>
+</body>
+
+</html>
+ 
